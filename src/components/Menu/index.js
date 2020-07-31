@@ -10,12 +10,12 @@ export default function Menu() {
   return (
     <nav className="Menu">
       <a href="/">
-        <img className="logo" src={logo} alt="rickflix logo" />
+        <img className="Logo" src={logo} alt="rickflix logo" />
       </a>
       {/* <ButtonLink href="/" className="ButtonLink">
         Novo vídeo
       </ButtonLink> */}
-      <Button as={Link} to="/cadastro/video">
+      <Button as={Link} className="ButtonLink" to="/cadastro/video">
         Novo Vídeo
       </Button>
     </nav>
