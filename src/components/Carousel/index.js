@@ -1,18 +1,19 @@
+/* eslint-disable camelcase */
 import React from 'react';
-import {
-  VideoCardGroupContainer,
-  VideoCardList,
-  Title,
-  ExtraLink,
-} from './styles';
+import PropTypes from 'prop-types';
+import { VideoCardGroupContainer, Title, ExtraLink } from './styles';
 import VideoCard from './components/VideoCard';
 import Slider, { SliderItem } from './components/Slider';
 
-function Carousel({ ignoreFirstVideo, category }) {
-  const categoryTitle = category.titulo;
-  const categoryColor = category.cor;
-  const categoryExtraLink = category.link_extra;
-  const videos = category.videos;
+export default function Carousel({
+  ignoreFirstVideo,
+  // eslint-disable-next-line object-curly-newline
+  category: { titulo, cor, link_extra, videos },
+}) {
+  const categoryTitle = titulo;
+  const categoryColor = cor;
+  const categoryExtraLink = link_extra;
+  const categoryVideos = videos;
   return (
     <VideoCardGroupContainer>
       {categoryTitle && (
@@ -28,7 +29,7 @@ function Carousel({ ignoreFirstVideo, category }) {
         </>
       )}
       <Slider>
-        {videos.map((video, index) => {
+        {categoryVideos.map((video, index) => {
           if (ignoreFirstVideo && index === 0) {
             return null;
           }
@@ -48,4 +49,11 @@ function Carousel({ ignoreFirstVideo, category }) {
   );
 }
 
-export default Carousel;
+Carousel.defaultProps = {
+  ignoreFirstVideo: false,
+};
+
+Carousel.propTypes = {
+  ignoreFirstVideo: PropTypes.bool,
+  category: PropTypes.shape.isRequired,
+};

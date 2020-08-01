@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 import Menu from '../../../components/Menu';
@@ -15,10 +16,14 @@ const Main = styled.main`
 
 export default function PageDefault({ children: Page }) {
   return (
-    <React.Fragment>
+    <>
       <Menu />
       <Main>{Page}</Main>
       <Footer />
-    </React.Fragment>
+    </>
   );
 }
+
+PageDefault.propTypes = {
+  children: PropTypes.arrayOf.isRequired,
+};

@@ -1,4 +1,6 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import SlickSlider from 'react-slick';
 import styled from 'styled-components';
 
@@ -55,3 +57,7 @@ export default function Slider({ children }) {
     </Container>
   );
 }
+
+Slider.propTypes = {
+  children: PropTypes.arrayOf.isRequired,
+};

@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import PageDefault from '../../components/PageDefault';
 import FormField from '../../../components/FormField';
+import Button from '../../../components/Button';
 
 export default function CadastroCategoria() {
   const [categoriaList, setCategoriaList] = useState([]);
@@ -34,10 +35,7 @@ export default function CadastroCategoria() {
         <div>
           <Link to="/">Ir para Home</Link>
         </div>
-        <form
-          onSubmit={handleSubmit}
-          style={{ backgroundColor: categoria.cor }}
-        >
+        <form onSubmit={handleSubmit}>
           <FormField
             label="Nome da categoria"
             inputName="titulo"
@@ -61,14 +59,15 @@ export default function CadastroCategoria() {
             value={categoria.cor}
             propOnChange={handleChange}
           />
-          <button type="submit">cadastrar</button>
+          <Button type="submit">cadastrar</Button>
         </form>
         <div>
           <p>Lista de categorias</p>
           <ul>
-            {categoriaList.map(({ titulo }, index) => {
-              return <li key={index}>{titulo}</li>;
-            })}
+            {categoriaList.map(({ titulo }, index) => (
+              // eslint-disable-next-line react/no-array-index-key
+              <li key={index}>{titulo}</li>
+            ))}
           </ul>
         </div>
       </PageDefault>

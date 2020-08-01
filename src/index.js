@@ -17,5 +17,5 @@ ReactDOM.render(
       <Route component={NotFoundPage} />
     </Switch>
   </BrowserRouter>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
