@@ -15,8 +15,9 @@ export default function CadastroCategoria() {
 
   useEffect(() => {
     async function getAllCategories() {
-      const URLCategories = 'http://localhost:8080/categorias';
-      let data = await fetch(URLCategories);
+      // const URLLocal = 'http://localhost:8080/categorias';
+      const URL = 'https://rickflixdb.herokuapp.com/';
+      let data = await fetch(URL);
       data = await data.json();
       setCategoriaList([...data]);
     }
