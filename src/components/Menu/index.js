@@ -12,9 +12,6 @@ export default function Menu() {
       <a href="/">
         <img className="Logo" src={logo} alt="rickflix logo" />
       </a>
-      {/* <ButtonLink href="/" className="ButtonLink">
-        Novo vídeo
-      </ButtonLink> */}
       <Button as={Link} className="ButtonLink" to="/cadastro/video">
         Novo Vídeo
       </Button>

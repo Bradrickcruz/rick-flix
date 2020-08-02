@@ -24,6 +24,10 @@ export default function PageDefault({ children: Page }) {
   );
 }
 
+PageDefault.defaultProps = {
+  children: [],
+};
+
 PageDefault.propTypes = {
-  children: PropTypes.arrayOf.isRequired,
+  children: PropTypes.arrayOf(PropTypes.object),
 };

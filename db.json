@@ -1,0 +1,22 @@
+{
+  "categorias": [
+    {
+      "id": 1,
+      "nome": "Front-end",
+      "descricao": "mexe com o visual do site",
+      "cor": "#cbd1ff"
+    },
+    {
+      "id": 2,
+      "nome": "Back-end",
+      "descricao": "mexe com a lógica do site",
+      "cor": "#21fd5f"
+    },
+    {
+      "id": 3,
+      "nome": "Banco de dados",
+      "descricao": "mexe com os dados do site",
+      "cor": "#ab123b"
+    }
+  ]
+}

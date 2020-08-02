@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 import PageDefault from '../../components/PageDefault';
@@ -13,6 +13,16 @@ export default function CadastroCategoria() {
     cor: '#000000',
   });
 
+  useEffect(() => {
+    async function getAllCategories() {
+      const URLCategories = 'http://localhost:8080/categorias';
+      let data = await fetch(URLCategories);
+      data = await data.json();
+      setCategoriaList([...data]);
+    }
+    getAllCategories();
+  }, []);
+
   function handleSubmit(e) {
     e.preventDefault();
     if (categoria.titulo && categoria.descricao) {
@@ -20,12 +30,12 @@ export default function CadastroCategoria() {
     }
   }
 
-  function handleChange(e) {
+  function handleChange({ target }) {
     function setValue(key, newValue) {
       setCategoria({ ...categoria, [key]: newValue });
     }
-    const { value } = e.target;
-    setValue(e.target.getAttribute('name'), value);
+    const { value } = target;
+    setValue(target.getAttribute('name'), value);
   }
 
   return (
@@ -45,7 +55,7 @@ export default function CadastroCategoria() {
           />
 
           <FormField
-            label="Descrição:"
+            label="Descrição"
             inputName="descricao"
             inputType="textarea"
             value={categoria.descricao}
@@ -53,7 +63,7 @@ export default function CadastroCategoria() {
           />
 
           <FormField
-            label="Cor da categoria:"
+            label="Cor da categoria"
             inputName="cor"
             inputType="color"
             value={categoria.cor}
@@ -61,15 +71,19 @@ export default function CadastroCategoria() {
           />
           <Button type="submit">cadastrar</Button>
         </form>
-        <div>
-          <p>Lista de categorias</p>
-          <ul>
-            {categoriaList.map(({ titulo }, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <li key={index}>{titulo}</li>
-            ))}
-          </ul>
-        </div>
+        {categoriaList.length === 0 ? (
+          <div>Loading...</div>
+        ) : (
+          <div>
+            <p>Lista de categorias</p>
+            <ul>
+              {categoriaList.map(({ nome }, index) => (
+                // eslint-disable-next-line react/no-array-index-key
+                <li key={index}>{nome}</li>
+              ))}
+            </ul>
+          </div>
+        )}
       </PageDefault>
     </>
   );
