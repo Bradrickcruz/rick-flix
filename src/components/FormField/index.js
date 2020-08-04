@@ -89,12 +89,16 @@ export default function Index({
   inputType,
   value,
   propOnChange,
+  suggestions,
 }) {
   function generateId(text) {
-    return `id_${text}`.replace(' ', '_');
+    return `id_${text}${Math.ceil(Math.random() * 1000)}`.replace(' ', '_');
   }
   const id = generateId(label);
+  const suggestionId = generateId('suggestionIdFor');
+  const optionId = generateId('optionFor');
   const hasValue = Boolean(value.length);
+  const hasSuggestions = Boolean(suggestions.length);
 
   function renderInput() {
     const isTextarea = inputType === 'textarea';
@@ -119,6 +123,8 @@ export default function Index({
         value={value}
         hasValue={hasValue}
         onChange={propOnChange}
+        list={hasSuggestions ? suggestionId : 'on'}
+        autoComplete={hasSuggestions ? 'off' : undefined}
       />
     );
   }
@@ -127,6 +133,18 @@ export default function Index({
       <StyledLabel htmlFor={id}>
         {renderInput()}
         <StyledLabel.Text>{label}</StyledLabel.Text>
+        {hasSuggestions && (
+          <datalist id={suggestionId}>
+            {suggestions.map((suggestion) => (
+              <option
+                key={generateId(`${optionId}${suggestion}`)}
+                value={suggestion}
+              >
+                {suggestion}
+              </option>
+            ))}
+          </datalist>
+        )}
       </StyledLabel>
     </StyledWrapperFormField>
   );
@@ -136,6 +154,7 @@ Index.defaultProps = {
   inputType: 'text',
   value: '',
   propOnChange: () => {},
+  suggestions: [],
 };
 
 Index.propTypes = {
@@ -144,4 +163,5 @@ Index.propTypes = {
   inputType: PropTypes.string,
   value: PropTypes.string,
   propOnChange: PropTypes.func,
+  suggestions: PropTypes.arrayOf(PropTypes.string),
 };

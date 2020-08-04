@@ -5,14 +5,18 @@ import PageDefault from '../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
 
+import useForm from '../../../hooks/useForm';
+
 export default function CadastroCategoria() {
-  const [categoriaList, setCategoriaList] = useState([]);
-  const [hasCategorias, setHasCategorias] = useState(false);
-  const [categoria, setCategoria] = useState({
+  const initialValues = {
     titulo: '',
     descricao: '',
     cor: '#000000',
-  });
+  };
+
+  const [categoriaList, setCategoriaList] = useState([]);
+  const [hasCategorias, setHasCategorias] = useState(false);
+  const { formValue, handleChange, clearForm } = useForm(initialValues);
 
   useEffect(() => {
     async function getAllCategories() {
@@ -20,7 +24,6 @@ export default function CadastroCategoria() {
       const URL = 'https://rickflixdb.herokuapp.com/categorias';
       // let data = await fetch(URL);
       const a = window.location.hostname.includes('localhost') ? URLLocal : URL;
-      console.log(a);
       let data = await fetch(a);
       data = await data.json();
       setCategoriaList([...data]);
@@ -32,34 +35,33 @@ export default function CadastroCategoria() {
     setHasCategorias(Boolean(categoriaList.length));
   }, [categoriaList]);
 
-  function handleSubmit(e) {
+  function handleClick(e) {
     e.preventDefault();
-    if (categoria.titulo && categoria.descricao) {
-      setCategoriaList([...categoriaList, categoria]);
+    if (formValue.titulo && formValue.descricao) {
+      setCategoriaList([...categoriaList, formValue]);
     }
+    clearForm();
   }
 
-  function handleChange({ target }) {
-    function setValue(key, newValue) {
-      setCategoria({ ...categoria, [key]: newValue });
-    }
-    const { value } = target;
-    setValue(target.getAttribute('name'), value);
+  function generateId(text) {
+    return `id_${text}`.replace(' ', '_');
   }
 
   return (
     <>
       <PageDefault>
         <h1>Cadastrar categoria</h1>
+
         <div>
           <Link to="/">Ir para Home</Link>
         </div>
-        <form onSubmit={handleSubmit}>
+
+        <form>
           <FormField
             label="Nome da categoria"
             inputName="titulo"
             inputType="text"
-            value={categoria.titulo}
+            value={formValue.titulo}
             propOnChange={handleChange}
           />
 
@@ -67,7 +69,7 @@ export default function CadastroCategoria() {
             label="Descrição"
             inputName="descricao"
             inputType="textarea"
-            value={categoria.descricao}
+            value={formValue.descricao}
             propOnChange={handleChange}
           />
 
@@ -75,10 +77,12 @@ export default function CadastroCategoria() {
             label="Cor da categoria"
             inputName="cor"
             inputType="color"
-            value={categoria.cor}
+            value={formValue.cor}
             propOnChange={handleChange}
           />
-          <Button type="submit">cadastrar</Button>
+          <Button type="submit" onClick={handleClick}>
+            cadastrar
+          </Button>
         </form>
         {!hasCategorias ? (
           <div>Loading...</div>
@@ -86,10 +90,9 @@ export default function CadastroCategoria() {
           <div>
             <p>Lista de categorias</p>
             <ul>
-              {categoriaList.map(({ id, nome }) => {
-                console.log(`${id} - ${nome}`);
-                return <li key={id}>{nome}</li>;
-              })}
+              {categoriaList.map(({ titulo }) => (
+                <li key={generateId(titulo)}>{titulo}</li>
+              ))}
             </ul>
           </div>
         )}
